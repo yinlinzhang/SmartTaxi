@@ -40,10 +40,12 @@ class Driver(models.Model):
     name = models.CharField(max_length=64, null=False)
     gender = models.BooleanField(default=True)
     password = models.CharField(max_length=64, null=False)
-    taxi = models.OneToOneField(Taxi)
-
+#    taxi = models.OneToOneField(Taxi)
 
 def verify_passenger_phonenum(pnum):
     if pnum not in [ o.phonenum for o in Passenger.objects.all()]:
         raise ObjectDoesNotExist()
 
+def verify_driver_phonenum(pnum):
+    if pnum not in [ o.phonenum for o in Driver.objects.all()]:
+        raise ObjectDoesNotExist()

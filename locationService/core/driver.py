@@ -7,9 +7,9 @@ import register.models
 
 __author__ = 'Administrator'
 
-available_passengers = {}
+available_drivers = {}
 
-class Passenger_t:
+class Driver_t:
     def __init__(self, phonenum, location):
         self._phonenum = phonenum
         self._location = location
@@ -26,22 +26,22 @@ class Passenger_t:
     def get_location(self):
         return self._location
 
-def updatePassengerHook(dic):
+def updateDriverHook(dic):
     pnum = dic['phoneNum']
-    if pnum not in available_passengers:
-        register.models.verify_passenger_phonenum(pnum)
-        available_passengers[pnum] = Passenger_t(pnum, Location(dic['curAddr'], dic['curGeoPoint']))
+    if pnum not in available_drivers:
+        register.models.verify_driver_phonenum(pnum)
+        available_drivers[pnum] = Driver_t(pnum, Location(dic['curAddr'], dic['curGeoPoint']))
     else:
-        available_passengers[pnum].set_location(Location(dic['curAddr'], dic['curGeoPoint']))
-    print "available passenger list: ", repr(available_passengers)
+        available_drivers[pnum].set_location(Location(dic['curAddr'], dic['curGeoPoint']))
+    print "available driver list: ", repr(available_drivers)
 
-def updatePassenger(request):
+def updateDriver(request):
     try:
         _jsonobj = request.POST['jsonobj']
         print "jsonobj: ", repr(_jsonobj)
-#        simplejson.loads(_jsonobj, object_hook=updatePassengerHook)
+        #        simplejson.loads(_jsonobj, object_hook=updateDriverHook)
         dic = simplejson.loads(_jsonobj)
-        updatePassengerHook(dic)
+        updateDriverHook(dic)
         return HttpResponse(simplejson.dumps({'ret' : 0, 'msg': 'succeeded.'}))
     except KeyError:
         import sys
@@ -52,4 +52,4 @@ def updatePassenger(request):
         import sys
         print sys.exc_info()[1]
         traceback.print_tb(sys.exc_info()[2])
-        return HttpResponse(simplejson.dumps({'ret' : 3, 'msg': 'passenger not existed.'}))
+        return HttpResponse(simplejson.dumps({'ret' : 3, 'msg': 'driver not existed.'}))

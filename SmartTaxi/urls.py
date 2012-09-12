@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-from locationService.views import updatePassenger
+from locationService.views import updatePassenger, requestHandler
 import register.views
 
 admin.autodiscover()
@@ -18,5 +18,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^register/$', register.views.register),
-    url(r'^locationService/$', updatePassenger),
+    url(r'^locationService/$', requestHandler),
 )
